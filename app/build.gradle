@@ -34,8 +34,11 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.1-alpha01'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.1.1-alpha01'
+
+    //maps
     implementation 'org.osmdroid:osmdroid-android:6.0.2'
 
+    //firebase
     implementation 'com.google.firebase:firebase-database:16.0.5'
 
     // rx
@@ -46,5 +49,8 @@ dependencies {
     //moxy
     implementation 'com.arello-mobile:moxy:1.5.3'
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
+
+    //ktx
+    implementation 'androidx.core:core-ktx:1.0.1'
 }
 apply plugin: 'com.google.gms.google-services'
