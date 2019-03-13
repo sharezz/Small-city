@@ -1,10 +1,11 @@
 package com.sharezzorama.smallcity.contact
 
+/*
 import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.DatabaseError
 import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.database.ValueEventListener
-import com.sharezzorama.smallcity.entity.Contact
+import com.sharezzorama.smallcity.data.entity.Contact
 import io.reactivex.Observable
 import io.reactivex.Single
 
@@ -28,7 +29,7 @@ class ContactFBDataSource : ContactsDataSource {
                 }
             }
 
-    override fun getAll(): Observable<List<Contact>> =
+    override suspend fun getAll(): Observable<List<Contact>> =
             Observable.create { emitter ->
                 contactsReference.orderByChild("name").startAt("Contact154357459").addValueEventListener(object : ValueEventListener {
                     override fun onCancelled(error: DatabaseError) {
@@ -43,4 +44,4 @@ class ContactFBDataSource : ContactsDataSource {
             }
 
     private fun createId() = contactsReference.push().key!!
-}
+}*/

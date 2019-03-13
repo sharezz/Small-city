@@ -1,12 +1,11 @@
 package com.sharezzorama.smallcity.contact
 
-import com.sharezzorama.smallcity.entity.Contact
-import io.reactivex.Observable
-import io.reactivex.Single
+import com.sharezzorama.smallcity.data.entity.Contact
+import kotlinx.coroutines.Deferred
 
 interface ContactsDataSource {
 
-    fun save(contact: Contact): Single<Contact>
+    fun save(contact: Contact): Deferred<Contact>
 
-    fun getAll(): Observable<List<Contact>>
+    suspend fun getAll(): Deferred<List<Contact>>
 }
