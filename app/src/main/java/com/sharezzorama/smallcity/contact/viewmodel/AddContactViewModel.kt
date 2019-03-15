@@ -14,8 +14,8 @@ class AddContactViewModel(private val dataSource: ContactsDataSource) : ViewMode
     private val liveData = MutableLiveData<Contact>()
 
     fun save(contact: Contact): LiveData<Contact> {
-        if (liveData.value == null) {
-            val job = GlobalScope.launch(Dispatchers.IO) {
+
+        val job = GlobalScope.launch(Dispatchers.IO) {
                 try {
                     val contact = dataSource.save(contact).await()
                     liveData.postValue(contact)
@@ -25,9 +25,7 @@ class AddContactViewModel(private val dataSource: ContactsDataSource) : ViewMode
 
                 }
             }
-        } else {
-            liveData.value
-        }
+
         return liveData
     }
 }
