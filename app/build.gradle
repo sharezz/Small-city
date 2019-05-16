@@ -83,6 +83,11 @@ dependencies {
     implementation 'com.squareup.retrofit2:converter-gson:2.5.0'
     implementation 'com.jakewharton.retrofit:retrofit2-kotlin-coroutines-adapter:0.9.2'
 
+    annotationProcessor "androidx.lifecycle:lifecycle-compiler:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
+    implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
+    //implementation group: 'android.arch.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.0.0'
+
     implementation project(":small-city-data")
 }
 apply plugin: 'com.google.gms.google-services'

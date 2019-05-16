@@ -13,4 +13,8 @@
         android:id="@+id/navigation_contact_add"
         android:name="com.sharezzorama.smallcity.contact.ui.contact.ContactAddFragment"
         android:label="@string/label_contact_add" />
+
+    <fragment android:id="@+id/navigation_map"
+        android:name="com.sharezzorama.smallcity.map.MapFragment"
+        android:label="Map"/>
 </navigation>

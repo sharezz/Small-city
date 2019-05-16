@@ -23,6 +23,7 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
     inner class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         fun bind(contact: Contact) {
             itemView.name.text = contact.name
+            itemView.description.text = contact.description
         }
     }
 

@@ -10,4 +10,7 @@
     <string name="contact_phone">Городской телефон</string>
     <string name="label_contact_add">Добавить</string>
     <string name="contact_save_button">Сохранить</string>
+    <string name="error_contacts_loading">При загрузке возникла ошибка. Проверьте соединение и повторите попытку.</string>
+    <string name="retry">Повторить</string>
+    <string name="error_empty_field">Заполните поле</string>
 </resources>
