@@ -2,19 +2,14 @@
 <navigation xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/nav_main_activity"
-    app:startDestination="@id/navigation_contact_list">
-
-    <fragment
-        android:id="@+id/navigation_contact_list"
-        android:name="com.sharezzorama.smallcity.contact.ui.ContactsFragment"
-        android:label="@string/label_contact_list" />
-
-    <fragment
-        android:id="@+id/navigation_contact_add"
-        android:name="com.sharezzorama.smallcity.contact.ui.contact.ContactAddFragment"
-        android:label="@string/label_contact_add" />
+    app:startDestination="@id/navigation_map">
 
     <fragment android:id="@+id/navigation_map"
-        android:name="com.sharezzorama.smallcity.map.MapFragment"
+        android:name="com.sharezzorama.smallcity.contact.ui.ContactsMapFragment"
         android:label="Map"/>
+    <fragment
+        android:id="@+id/navigation_contact_add"
+        android:name="com.sharezzorama.smallcity.contact.viewmodel.contact.add.ContactAddFragment"
+        android:label="@string/label_contact_add" />
+
 </navigation>

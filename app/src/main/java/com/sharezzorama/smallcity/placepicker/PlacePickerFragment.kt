@@ -1,21 +1,27 @@
-package com.sharezzorama.smallcity.map
+package com.sharezzorama.smallcity.placepicker
 
+import android.app.Activity
+import android.content.Intent
 import android.os.Bundle
-import android.view.MotionEvent
 import android.view.View
-import kotlinx.android.synthetic.main.fragment_map.*
-import org.osmdroid.events.MapListener
-import org.osmdroid.views.MapView
-import org.osmdroid.api.IGeoPoint
-import android.view.InputDevice
-import android.widget.Toast
+import androidx.core.os.bundleOf
+import com.sharezzorama.smallcity.R
+import com.sharezzorama.smallcity.base.Layout
+import com.sharezzorama.smallcity.data.entity.Address
+import com.sharezzorama.smallcity.map.MapFragment
+import org.osmdroid.views.overlay.Marker
 
-
+@Layout(id = R.layout.fragment_map)
 class PlacePickerFragment : MapFragment() {
+
+    companion object {
+        const val KEY_PICKED_PLACE = "picked_place"
+    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
-        mapView.setOnGenericMotionListener(object : View.OnGenericMotionListener {
+
+        /*mapView.setOnGenericMotionListener(object : View.OnGenericMotionListener {
             override fun onGenericMotion(view: View, event: MotionEvent): Boolean {
                 if (0 != event.getSource() and InputDevice.SOURCE_CLASS_POINTER) {
                     when (event.getAction()) {
@@ -34,6 +40,18 @@ class PlacePickerFragment : MapFragment() {
                 }
                 return false
             }
-        })
+        })*/
+    }
+
+    override fun onBuildingsLoaded() {
+        super.onBuildingsLoaded()
+    }
+
+    override fun onBuildingSelected(building: Address, marker: Marker) {
+        super.onBuildingSelected(building, marker)
+        activity?.apply {
+            setResult(Activity.RESULT_OK, Intent().apply { putExtra(KEY_PICKED_PLACE, building) })
+            finish()
+        }
     }
 }

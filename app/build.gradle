@@ -8,6 +8,9 @@ apply plugin: 'kotlin-kapt'
 
 apply plugin: 'kotlinx-serialization'
 
+Properties properties = new Properties()
+properties.load(project.file('build.properties').newDataInputStream())
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -17,11 +20,34 @@ android {
         versionCode 1
         versionName "1.0"
         testInstrumentationRunner "androidx.test.runner.AndroidJUnitRunner"
+        multiDexEnabled true
     }
+
+    signingConfigs {
+        release {
+            storeFile file(properties.getProperty('sign_store_path_release'))
+            storePassword properties.getProperty('sign_store_password_release')
+            keyAlias properties.getProperty('sign_key_alias_release')
+            keyPassword properties.getProperty('sign_key_password_release')
+        }
+        debug {
+            storeFile file(properties.getProperty('sign_store_path_debug'))
+            storePassword properties.getProperty('sign_store_password_debug')
+            keyAlias properties.getProperty('sign_key_alias_debug')
+            keyPassword properties.getProperty('sign_key_password_debug')
+        }
+    }
+
     buildTypes {
         release {
             minifyEnabled false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.release
+        }
+        debug {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
+            signingConfig signingConfigs.debug
         }
     }
     dataBinding {
@@ -39,6 +65,7 @@ dependencies {
     testImplementation 'junit:junit:4.12'
     androidTestImplementation 'androidx.test:runner:1.1.2-alpha02'
     androidTestImplementation 'androidx.test.espresso:espresso-core:3.2.0-alpha02'
+    implementation 'com.android.support:multidex:1.0.3'
 
     def lifecycle_version = "2.0.0"
     implementation "androidx.lifecycle:lifecycle-viewmodel:$lifecycle_version"
@@ -52,12 +79,12 @@ dependencies {
     implementation "android.arch.navigation:navigation-ui-ktx:$nav_version"
 
     //koin
-    def koin_version = "1.0.2"
+    def koin_version = "2.0.1"
     implementation "org.koin:koin-androidx-scope:$koin_version"
     implementation "org.koin:koin-androidx-viewmodel:$koin_version"
 
     //maps
-    implementation 'org.osmdroid:osmdroid-android:6.0.2'
+    implementation 'org.osmdroid:osmdroid-android:6.1.0'
 
     //firebase
     implementation 'com.google.firebase:firebase-database:16.0.5'
@@ -72,7 +99,9 @@ dependencies {
     annotationProcessor 'com.arello-mobile:moxy-compiler:1.5.3'
 
     //ktx
-    implementation 'androidx.core:core-ktx:1.0.1'
+    implementation 'androidx.core:core-ktx:1.0.2'
+    implementation 'androidx.fragment:fragment-ktx:1.2.0-alpha01'
+
 
     //coroutines
     implementation 'org.jetbrains.kotlinx:kotlinx-coroutines-core:1.0.1'
@@ -87,6 +116,9 @@ dependencies {
     implementation "androidx.lifecycle:lifecycle-extensions:$rootProject.archLifecycleVersion"
     implementation "androidx.lifecycle:lifecycle-viewmodel-ktx:$rootProject.archLifecycleVersion"
     //implementation group: 'android.arch.lifecycle', name: 'lifecycle-viewmodel-ktx', version: '2.0.0'
+
+    //edit text
+    implementation "com.redmadrobot:input-mask-android:4.3.1"
 
     implementation project(":small-city-data")
 }

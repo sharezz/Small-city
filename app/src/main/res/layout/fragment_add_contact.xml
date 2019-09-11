@@ -6,6 +6,8 @@
 
         <import type="android.view.View" />
 
+        <import type="android.text.TextWatcher" />
+
         <variable
             name="viewmodel"
             type="com.sharezzorama.smallcity.contact.viewmodel.contact.add.AddContactViewModel" />
@@ -13,7 +15,9 @@
 
     <ScrollView
         android:layout_width="match_parent"
-        android:layout_height="match_parent">
+        android:layout_height="match_parent"
+        android:fillViewport="true"
+        android:padding="8dp">
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -24,7 +28,8 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
-                android:text="@={viewmodel.commonError}" />
+                android:text="@={viewmodel.commonError}"
+                android:visibility="@{viewmodel.commonError !=null? View.VISIBLE : View.GONE }" />
 
             <com.google.android.material.textfield.TextInputLayout
                 style="@style/BaseTextInputLayout"
@@ -57,7 +62,8 @@
                 style="@style/BaseTextInputLayout"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:hint="@string/contact_mobile_phone">
+                android:hint="@string/contact_mobile_phone"
+                app:error="@{viewmodel.form.mobilePhoneError}">
 
                 <com.google.android.material.textfield.TextInputEditText
                     android:id="@+id/vMobilePhone"
@@ -78,6 +84,67 @@
                     android:layout_height="wrap_content"
                     android:text="@={viewmodel.form.phone}" />
             </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                style="@style/BaseTextInputLayout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:hint="@string/contact_tags">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/vTags"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:onTextChanged="@{viewmodel.onTagTextChanged}"
+                    android:text="@{viewmodel.form.tagInput}" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.chip.ChipGroup
+                android:id="@+id/chipGroup"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:tag_list="@{viewmodel.tagList}" />
+
+            <com.sharezzorama.smallcity.contact.ui.WeekScheduleView
+                android:id="@+id/vWeekSchedule"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                app:schedule="@{viewmodel.form.schedule}"/>
+
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:gravity="center_vertical"
+                android:orientation="horizontal">
+
+                <LinearLayout
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:orientation="vertical"
+                    android:paddingTop="8dp"
+                    android:paddingBottom="8dp">
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@string/address" />
+
+                    <TextView
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:text="@={viewmodel.form.buildingAddress}" />
+
+                </LinearLayout>
+
+                <com.google.android.material.button.MaterialButton
+                    android:id="@+id/btnAddLocation"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:enabled="@{viewmodel.dataLoading? false: true}"
+                    android:onClick="@{()->viewmodel.addLocation()}"
+                    android:text="@string/add_location_button" />
+            </LinearLayout>
 
             <com.google.android.material.button.MaterialButton
                 android:id="@+id/btnSave"

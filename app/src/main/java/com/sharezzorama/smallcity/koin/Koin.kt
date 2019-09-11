@@ -1,14 +1,20 @@
 package com.sharezzorama.smallcity.koin
 
-import com.sharezzorama.smallcity.contact.ContactRemoteDataSource
-import com.sharezzorama.smallcity.contact.ContactsDataSource
+import com.sharezzorama.smallcity.datasource.contact.ContactRemoteDataSource
+import com.sharezzorama.smallcity.datasource.contact.ContactsDataSource
+import com.sharezzorama.smallcity.datasource.map.AddressDataSource
+import com.sharezzorama.smallcity.datasource.map.AddressRemoteDataSource
 import com.sharezzorama.smallcity.contact.viewmodel.contact.add.AddContactViewModel
 import com.sharezzorama.smallcity.contact.viewmodel.ContactsViewModel
-import org.koin.androidx.viewmodel.ext.koin.viewModel
-import org.koin.dsl.module.module
+import com.sharezzorama.smallcity.map.viewmodel.AddressViewModel
+import org.koin.androidx.viewmodel.dsl.viewModel
+import org.koin.dsl.bind
+import org.koin.dsl.module
 
 val myModule = module {
-    single { ContactRemoteDataSource/*ContactFBDataSource*/() } bind ContactsDataSource::class
+    single { ContactRemoteDataSource() } bind ContactsDataSource::class
+    single { AddressRemoteDataSource() } bind AddressDataSource::class
     viewModel { ContactsViewModel(get()) }
     viewModel { AddContactViewModel(get()) }
+    viewModel { AddressViewModel(get()) }
 }

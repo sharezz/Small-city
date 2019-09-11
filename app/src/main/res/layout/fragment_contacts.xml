@@ -4,7 +4,9 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <data>
+
         <import type="android.view.View" />
+
         <variable
             name="viewmodel"
             type="com.sharezzorama.smallcity.contact.viewmodel.ContactsViewModel" />
@@ -18,7 +20,7 @@
             android:id="@+id/recyclerView"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            tools:listitem="@layout/list_item_contacts" />
+            tools:listitem="@layout/contact_item" />
 
         <ProgressBar
             android:id="@+id/progressBar"
@@ -38,15 +40,24 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/error_contacts_loading"
-                android:gravity="center"/>
+                android:gravity="center"
+                android:text="@string/error_contacts_loading" />
 
             <com.google.android.material.button.MaterialButton
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="@string/retry"
-                android:onClick="@{() -> viewmodel.loadContacts()}"/>
+                android:onClick="@{() -> viewmodel.loadContacts()}"
+                android:text="@string/retry" />
         </LinearLayout>
+
+        <TextView
+            android:padding="18dp"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="@string/contacts_not_found"
+            android:drawableLeft="@drawable/ic_emoticon_sad_outline"
+            android:visibility="@{viewmodel.count == 0? View.VISIBLE : View.GONE }" />
 
     </FrameLayout>
 

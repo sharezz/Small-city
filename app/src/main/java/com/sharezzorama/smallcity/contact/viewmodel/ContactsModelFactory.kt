@@ -2,7 +2,7 @@ package com.sharezzorama.smallcity.contact.viewmodel
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.ViewModelProvider
-import com.sharezzorama.smallcity.contact.ContactsDataSource
+import com.sharezzorama.smallcity.datasource.contact.ContactsDataSource
 
 class ContactsModelFactory(private val dataSource: ContactsDataSource) : ViewModelProvider.NewInstanceFactory() {
 

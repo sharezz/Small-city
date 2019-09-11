@@ -25,6 +25,6 @@ class PermissionsUtils {
         }
 
         @JvmStatic
-        fun hasPermission(context: Context, permission: String) = ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
+        fun hasPermission(context: Context?, permission: String) = if(context == null) false else ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED
     }
 }

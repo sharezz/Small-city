@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_name">small-city-android</string>
+    <string name="app_name">Мой город</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
@@ -13,4 +13,14 @@
     <string name="error_contacts_loading">При загрузке возникла ошибка. Проверьте соединение и повторите попытку.</string>
     <string name="retry">Повторить</string>
     <string name="error_empty_field">Заполните поле</string>
+    <string name="contacts_not_found">Организаций не найдено</string>
+    <string name="search_hint">Поиск</string>
+    <string name="search_query_hint">Поиск</string>
+    <string name="add_location_hint">Выберите здание</string>
+    <string name="add_location_button">Выбрать…</string>
+    <string name="contact_tags">Тэги</string>
+    <string name="add_contact">Добавить организацию</string>
+    <string name="contact_schedule">Время работы</string>
+    <string name="contact_launch_time_schedule">Обед</string>
+    <string name="address">Адрес:</string>
 </resources>

@@ -2,7 +2,7 @@ package com.sharezzorama.smallcity.contact.presentation
 
 import com.arellomobile.mvp.InjectViewState
 import com.sharezzorama.smallcity.base.mvp.BaseMvpPresenter
-import com.sharezzorama.smallcity.contact.ContactsDataSource
+import com.sharezzorama.smallcity.datasource.contact.ContactsDataSource
 
 @InjectViewState
 class ContactsPresenter(private val dataSource: ContactsDataSource) : BaseMvpPresenter<ContactsView>() {

@@ -3,7 +3,9 @@ package com.sharezzorama.smallcity
 import android.app.Application
 import com.google.firebase.FirebaseApp
 import com.sharezzorama.smallcity.koin.myModule
-import org.koin.android.ext.android.startKoin
+import org.koin.android.ext.koin.androidContext
+import org.koin.android.ext.koin.androidLogger
+import org.koin.core.context.startKoin
 
 class MainApplication : Application() {
 
@@ -11,6 +13,11 @@ class MainApplication : Application() {
         super.onCreate()
         FirebaseApp.initializeApp(this)
 
-        startKoin(this, listOf(myModule))
+        startKoin {
+            androidLogger()
+            androidContext(this@MainApplication)
+            modules(myModule)
+        }
+
     }
 }

@@ -6,5 +6,7 @@ data class Contact(
         var description: String? = null,
         var phones: List<Phone> = listOf(),
         var categories: List<Category>? = null,
-        var tags: List<Tag>? = null
+        var tags: List<Tag>? = null,
+        var buildingId: Int? = null,
+        val weekSchedule: List<String>? = null
 )

@@ -2,17 +2,21 @@ package com.sharezzorama.smallcity.contact.ui
 
 import android.view.View
 import android.view.ViewGroup
+import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
+import com.sharezzorama.getInflater
 import com.sharezzorama.smallcity.R
+import com.sharezzorama.smallcity.contact.viewmodel.ContactsViewModel
 import com.sharezzorama.smallcity.data.entity.Contact
-import kotlinx.android.synthetic.main.list_item_contacts.view.*
+import com.sharezzorama.smallcity.databinding.ContactItemBinding
+import com.sharezzorama.smallcity.map.viewmodel.AddressViewModel
+import kotlinx.android.synthetic.main.contact_item.view.*
 
-class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
+class ContactsAdapter(private val contactsViewModel: ContactsViewModel, private val addressViewModel: AddressViewModel) : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>() {
     val contacts = mutableListOf<Contact>()
 
-    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ContactViewHolder {
-        return ContactViewHolder(View.inflate(parent.context, R.layout.list_item_contacts, null))
-    }
+    override fun onCreateViewHolder(parent: ViewGroup, viewType: Int)=
+            ContactViewHolder(ContactItemBinding.inflate(parent.getInflater(), parent, false))
 
     override fun getItemCount() = contacts.size
 
@@ -20,10 +24,12 @@ class ContactsAdapter : RecyclerView.Adapter<ContactsAdapter.ContactViewHolder>(
         holder.bind(contacts[position])
     }
 
-    inner class ContactViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+    inner class ContactViewHolder(val binding: ContactItemBinding) : RecyclerView.ViewHolder(binding.root) {
+
         fun bind(contact: Contact) {
-            itemView.name.text = contact.name
-            itemView.description.text = contact.description
+            binding.contact = contact
+            binding.building = addressViewModel.getBuilding(contact.buildingId)
+            binding.clickListener = View.OnClickListener { contactsViewModel.onContactSelected(contact) }
         }
     }
 
