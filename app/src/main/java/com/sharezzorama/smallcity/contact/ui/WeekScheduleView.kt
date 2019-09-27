@@ -2,19 +2,18 @@ package com.sharezzorama.smallcity.contact.ui
 
 import android.annotation.TargetApi
 import android.content.Context
-import android.graphics.drawable.GradientDrawable
 import android.os.Build
 import android.text.Editable
 import android.text.InputType
 import android.text.method.DigitsKeyListener
 import android.util.AttributeSet
 import android.view.View
+import android.view.View.OnFocusChangeListener
 import android.widget.EditText
 import android.widget.LinearLayout
 import com.redmadrobot.inputmask.MaskedTextChangedListener
 import com.sharezzorama.smallcity.ProjectConstants
 import com.sharezzorama.smallcity.R
-import kotlinx.android.synthetic.main.layout_schedule.*
 import kotlinx.android.synthetic.main.layout_schedule.view.*
 
 class WeekScheduleView : LinearLayout {
@@ -25,8 +24,6 @@ class WeekScheduleView : LinearLayout {
     constructor(context: Context?, attrs: AttributeSet?, defStyleAttr: Int, defStyleRes: Int) : super(context, attrs, defStyleAttr, defStyleRes)
 
     private val daysOfWeek = context.resources.getStringArray(R.array.daysOfWeekShort)
-    var schedule: List<String> = listOf()
-    var scheduleChangeListener: OnScheduleChangeListener? = null
 
     companion object {
         const val MONDAY_INDEX = 0

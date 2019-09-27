@@ -8,5 +8,5 @@ data class Contact(
         var categories: List<Category>? = null,
         var tags: List<Tag>? = null,
         var buildingId: Int? = null,
-        val weekSchedule: List<String>? = null
+        var weekSchedule: List<String>? = null
 )

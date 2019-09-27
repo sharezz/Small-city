@@ -1,5 +1,6 @@
 package com.sharezzorama.smallcity.contact.viewmodel
 
+import android.util.Log
 import android.view.View
 import androidx.databinding.*
 import androidx.databinding.adapters.ListenerUtil
@@ -18,6 +19,8 @@ open class TagBindingAdapter {
         fun setTagList(group: ChipGroup,
                        tagList: ObservableArrayList<Tag>
         ) {
+
+            Log.d("BANANA", "setTagList")
 
             val newTagLayoutId = R.layout.tag_item
             var listener = ListenerUtil.getListener<TagChangeListener>(group, R.id.tagListener)

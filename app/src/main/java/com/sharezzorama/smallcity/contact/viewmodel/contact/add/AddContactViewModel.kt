@@ -2,7 +2,10 @@ package com.sharezzorama.smallcity.contact.viewmodel.contact.add
 
 import android.util.Log
 import android.view.View
-import androidx.databinding.*
+import androidx.databinding.BindingAdapter
+import androidx.databinding.ObservableArrayList
+import androidx.databinding.ObservableBoolean
+import androidx.databinding.ObservableField
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.viewModelScope
@@ -12,7 +15,6 @@ import com.sharezzorama.smallcity.base.AViewModel
 import com.sharezzorama.smallcity.data.entity.*
 import com.sharezzorama.smallcity.datasource.contact.ContactsDataSource
 import kotlinx.coroutines.launch
-import java.lang.Exception
 
 class AddContactViewModel(private val dataSource: ContactsDataSource) : AViewModel() {
     private val liveData = MutableLiveData<Contact>()
@@ -29,7 +31,8 @@ class AddContactViewModel(private val dataSource: ContactsDataSource) : AViewMod
                 try {
                     dataLoading.set(true)
                     commonError.set(null)
-                    liveData.postValue(dataSource.save(buildContact()).await())
+                    val contact = buildContact()
+                    liveData.postValue(dataSource.save(contact).await())
                     dataLoading.set(false)
                 } catch (e: Exception) {
                     dataLoading.set(false)
@@ -80,6 +83,10 @@ class AddContactViewModel(private val dataSource: ContactsDataSource) : AViewMod
         phones = mutablePhones
         checkPhone(form.mobilePhone, mutablePhones, PhoneTypeEnum.MOBILE)
         checkPhone(form.phone, mutablePhones, PhoneTypeEnum.WORK)
+
+        //Schedule
+        form.schedule.set(mutableListOf())
+        weekSchedule = form.schedule.get()
     }
 
     /*

@@ -1,15 +1,11 @@
 package com.sharezzorama.smallcity.contact.viewmodel.contact.add
 
-import android.view.View
-import androidx.databinding.*
+import androidx.databinding.Observable
+import androidx.databinding.ObservableField
 import com.sharezzorama.smallcity.R
 import com.sharezzorama.smallcity.data.entity.Address
 
-class AddContactForm : BaseObservable() {
-
-    /*set(value) {
-        notifyPropertyChanged(BR.valid)}*/
-
+class AddContactForm {
     var name = ObservableField<String>()
     val nameError = ObservableField<Int>()
 
@@ -21,21 +17,21 @@ class AddContactForm : BaseObservable() {
     val phone = ObservableField<String>()
     var buildingAddress = ObservableField<String>()
     var building = ObservableField<Address>()
-            .apply {  addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
+            .apply {
+                addOnPropertyChangedCallback(object : Observable.OnPropertyChangedCallback() {
 
-                override fun onPropertyChanged(sender: Observable, propertyId: Int) {
-                    buildingAddress.set("${get()?.street} ${get()?.housenumber}")
-                }
-            })}
-    val schedule = ObservableField<List<String>>()
-
-
+                    override fun onPropertyChanged(sender: Observable, propertyId: Int) {
+                        buildingAddress.set("${get()?.street} ${get()?.housenumber}")
+                    }
+                })
+            }
     val tagInput = ObservableField<String>()
 
-    @Bindable
+    val schedule: ObservableField<MutableList<String>> = ObservableField()
+
     fun isValid(): Boolean {
         return isStringValueNotEmpty(name, nameError, R.string.error_empty_field)
-                &&isStringValueNotEmpty(mobilePhone, mobilePhoneError, R.string.error_empty_field)
+                && isStringValueNotEmpty(mobilePhone, mobilePhoneError, R.string.error_empty_field)
     }
 
     private fun isStringValueNotEmpty(field: ObservableField<String>, errorField: ObservableField<Int>, errorResId: Int): Boolean {

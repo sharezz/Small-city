@@ -109,7 +109,7 @@
                 android:id="@+id/vWeekSchedule"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                app:schedule="@{viewmodel.form.schedule}"/>
+                app:week_schedule="@{viewmodel.form.schedule}" />
 
             <LinearLayout
                 android:layout_width="match_parent"
