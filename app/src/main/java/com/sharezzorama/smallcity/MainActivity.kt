@@ -53,7 +53,7 @@ class MainActivity : AppCompatActivity(), OnBuildingSelectListener {
 
         contactsViewModel.contactsLiveData
                 .observe(this, Observer<List<Contact>> { list ->
-
+                    hideKeyboard()
                 })
 
         contactsViewModel.addContactEvent.observe(this, Observer { addContact(it) })
@@ -76,7 +76,7 @@ class MainActivity : AppCompatActivity(), OnBuildingSelectListener {
                     override fun onQueryTextSubmit(query: String): Boolean {
                         binding.building = null
                         openContactsSheet()
-                        hideKeyboard()
+                        //hideKeyboard()
                         contactsViewModel.search(query)
                         return true
                     }
