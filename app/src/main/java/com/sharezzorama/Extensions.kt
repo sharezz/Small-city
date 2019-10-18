@@ -28,17 +28,31 @@ fun Activity.hideKeyboard() {
  *
  * @param mapView - MapView
  * @param provideAddress - Функция возвращающая адрес контакта
+ * @return - Marker ot null if address is not available
  */
-fun Contact.toMarker(mapView: MapView, markerIdPrefix:String, provideAddress: (Contact) -> Address?): Marker {
-    val marker = Marker(mapView).apply {
-        title = name
-        icon = ContextCompat.getDrawable(mapView.context, R.drawable.ic_map_marker)
+fun Contact.toMarker(mapView: MapView, markerIdPrefix: String, provideAddress: (Contact) -> Address?): Marker? {
+    provideAddress(this)?.let { address ->
+        return address
+                .toMarker(mapView)
+                .apply {
+                    title = name
+                    icon = ContextCompat.getDrawable(mapView.context, R.drawable.ic_map_marker)
+                    subDescription = "$description, ${address.street} ${address.housenumber}"
+                    id = "$markerIdPrefix${address.id}"
+                }
     }
-
-    provideAddress(this)?.let { building ->
-        marker.position = GeoPoint(building.lat, building.lng)
-        marker.subDescription = "$description, ${building.street} ${building.housenumber}"
-        marker.id = "$markerIdPrefix${building.id}"
-    }
-    return marker
+    return null
 }
+
+/**
+ * Converts the address into a marker
+ * @param mapView - MapView
+ * @return - Marker
+ *
+ */
+fun Address.toMarker(mapView: MapView) =
+        Marker(mapView)
+                .apply {
+                    icon = ContextCompat.getDrawable(mapView.context, R.drawable.ic_circle_medium)
+                    position = GeoPoint(lat, lng)
+                }

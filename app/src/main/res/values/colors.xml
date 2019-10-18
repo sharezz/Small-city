@@ -10,6 +10,7 @@
     <color name="colorDivider">#BDBDBD</color>
     <color name="contact_list_bottom_sheet_bg">#FDFDFD</color>
     <color name="contact_name">#8BC34A</color>
+    <color name="bg_splash_screen">#FFFFFF</color>
 
     <!--  <color name="colorPrimary">#008577</color>
       <color name="colorPrimaryDark">#00574B</color>

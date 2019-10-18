@@ -43,9 +43,6 @@ class PlacePickerFragment : MapFragment() {
         })*/
     }
 
-    override fun onBuildingsLoaded() {
-        super.onBuildingsLoaded()
-    }
 
     override fun onBuildingSelected(building: Address, marker: Marker) {
         super.onBuildingSelected(building, marker)

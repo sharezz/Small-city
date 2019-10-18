@@ -48,7 +48,7 @@ class ContactsMapFragment : MapFragment() {
         cleanLastSearchResult()
 
         list.map { contact -> contact.toMarker(mapView, SEARCH_RESULT_ITEM_ID_PREFIX, provideAddressFunction) }
-                .forEach { marker -> mapView.overlays.add(marker) }
+                .forEach { marker -> mapView.overlays.add(marker)}
 
         zoom(list, provideAddressFunction)
     }

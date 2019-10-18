@@ -13,6 +13,7 @@ import com.sharezzorama.smallcity.base.Layout
 import com.sharezzorama.smallcity.data.entity.Address
 import com.sharezzorama.smallcity.map.viewmodel.AddressViewModel
 import com.sharezzorama.smallcity.utils.PermissionsUtils
+import com.sharezzorama.toMarker
 import kotlinx.android.synthetic.main.fragment_map.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
@@ -32,9 +33,6 @@ open class MapFragment : BaseFragment() {
     private val mapInitializer = MapInitializer(START_GEO_POINT, ZOOM, R.drawable.ic_circle_medium, false)
     protected val addressViewModel: AddressViewModel by sharedViewModel()
 
-    override fun onCreate(savedInstanceState: Bundle?) {
-        super.onCreate(savedInstanceState)
-    }
 
     override fun onViewCreated(view: View, savedInstanceState: Bundle?) {
         super.onViewCreated(view, savedInstanceState)
@@ -53,25 +51,14 @@ open class MapFragment : BaseFragment() {
             PermissionsUtils.hasPermission(context, Manifest.permission.ACCESS_FINE_LOCATION)
                     && PermissionsUtils.hasPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
 
+
     private fun loadBuildings() {
+        addressViewModel
+                .buildingsLiveData
+                .observe(this, Observer { buildings ->
+                    onBuildingsLoaded(buildings = buildings.values.toList())
+                })
         addressViewModel.loadBuildings()
-        addressViewModel.buildingsLiveData.observe(this, Observer { buildings ->
-            buildings
-                    .filter { building -> building.value.lat != null && building.value.lng != null }
-                    .forEach { building ->
-                        val marker = Marker(mapView)
-                        marker.position = GeoPoint(building.value.lat?.toDouble()!!, building.value.lng?.toDouble()!!)
-                        marker.title = "${building.value.street}, ${building.value.housenumber}"
-                        marker.icon =ContextCompat.getDrawable(context!!, mapInitializer.buildingMarkerIcon)
-                        marker.subDescription
-                        marker.setOnMarkerClickListener { selectedMarker, _ ->
-                            onBuildingSelected(building.value, selectedMarker)
-                            true
-                        }
-                        mapView.overlays.add(marker)
-                    }
-            onBuildingsLoaded()
-        })
     }
 
     override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
@@ -101,41 +88,28 @@ open class MapFragment : BaseFragment() {
                 setCenter(mapInitializer.startGeoPoint)
             }
         }
-        //loadBuildings()
-        //addressViewModel.loadBuildings()
-
-        /* mapView.setOnGenericMotionListener(object : View.OnGenericMotionListener {
-             override fun onGenericMotion(view: View, event: MotionEvent): Boolean {
-                 if (0 != event.getSource() and InputDevice.SOURCE_CLASS_POINTER) {
-                     when (event.getAction()) {
-                         MotionEvent.ACTION_SCROLL -> {
-                             if (event.getAxisValue(MotionEvent.AXIS_VSCROLL) < 0.0f) {
-                                 mapView.controller.zoomOut()
-                                 val iGeoPoint = mapView.getProjection().fromPixels(event.x.toInt(), event.y.toInt())
-                                 Toast.makeText(context, "lat: ${iGeoPoint.latitude}, lng:${iGeoPoint.longitude}", Toast.LENGTH_LONG).show()
-
-                             } else {
-                                 val iGeoPoint = mapView.getProjection().fromPixels(event.x.toInt(), event.y.toInt())
-                                 Toast.makeText(context, "lat: ${iGeoPoint.latitude}, lng:${iGeoPoint.longitude}", Toast.LENGTH_LONG).show()
-                                 mapView.controller.animateTo(iGeoPoint)
-                                 mapView.controller.zoomIn()
-                             }
-                             return true
-                         }
-                     }
-                 }
-                 return false
-             }
-         })*/
     }
 
     open protected fun onInitMap(mapInitializer: MapInitializer) {}
-    open protected fun onBuildingsLoaded() {}
     open protected fun onBuildingSelected(building: Address, marker: Marker) {
 
         val contactSheet = activity
         if (contactSheet != null && contactSheet is OnBuildingSelectListener) {
             contactSheet.onBuildingSelected(building, marker)
         }
+    }
+
+    open protected fun onBuildingsLoaded(buildings: List<Address>) {
+        buildings.map { address ->
+            val marker = address.toMarker(mapView)
+            marker.setOnMarkerClickListener(Marker.OnMarkerClickListener { marker, mapView ->
+                onBuildingSelected(address, marker)
+                true
+            })
+            marker
+        }
+                .forEach { marker ->
+                    mapView.overlays.add(marker)
+                }
     }
 }

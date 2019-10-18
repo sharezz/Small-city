@@ -16,7 +16,7 @@ class AddressViewModel(private val addressDataSource: AddressDataSource) : AView
         viewModelScope.launch {
             try {
                 val buildings = addressDataSource.getBuildingsAsync().await()
-                val map = buildings.associate { building -> building.id to building }
+                val map = buildings.associateBy { building -> building.id }
                 buildingsLiveData.postValue(map)
             } catch (e: Exception) {
                 Log.e("BANANA", "Error", e)
