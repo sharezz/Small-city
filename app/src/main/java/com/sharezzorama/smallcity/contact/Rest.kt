@@ -9,7 +9,7 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 object Rest {
-    private const val BASE_URL = "http://192.168.0.105:8081/api/"
+    private const val BASE_URL = "http://192.168.0.106:8081/api/"
     // private const val BASE_URL = "http://192.168.206.29:8081/api/"
     //private const val BASE_URL = "http://18.188.86.22:8081/api/"
 
@@ -34,7 +34,7 @@ object Rest {
         fun createContactAsync(@Body contact: Contact): Deferred<Contact>
 
         @GET("map/buildings")
-        fun getBuildings(): Deferred<List<Address>>
+        fun getBuildings(@Query("date_from") dateFrom: String): Deferred<List<Address>>
 
     }
 }

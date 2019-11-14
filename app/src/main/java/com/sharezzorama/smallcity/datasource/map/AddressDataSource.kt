@@ -5,5 +5,5 @@ import kotlinx.coroutines.Deferred
 
 interface AddressDataSource {
 
-    suspend fun getBuildingsAsync(): Deferred<List<Address>>
+    suspend fun getBuildingsAsync(s: String): Deferred<List<Address>>
 }

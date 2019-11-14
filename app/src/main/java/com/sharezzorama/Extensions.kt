@@ -53,6 +53,7 @@ fun Contact.toMarker(mapView: MapView, markerIdPrefix: String, provideAddress: (
 fun Address.toMarker(mapView: MapView) =
         Marker(mapView)
                 .apply {
+                   // alpha = 0F
                     icon = ContextCompat.getDrawable(mapView.context, R.drawable.ic_circle_medium)
                     position = GeoPoint(lat, lng)
                 }

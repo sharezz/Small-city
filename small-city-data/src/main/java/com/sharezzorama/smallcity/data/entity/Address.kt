@@ -1,9 +1,12 @@
 package com.sharezzorama.smallcity.data.entity
 
+import androidx.room.Entity
+import androidx.room.PrimaryKey
 import java.io.Serializable
 
-
-data class Address(val id: Int,
+@Entity(tableName = "addresses")
+data class Address(@PrimaryKey
+                   val id: Int,
                    val externalId: Long,
                    val street: String?,
                    val city: String?,
