@@ -1,5 +1,6 @@
 package com.sharezzorama.smallcity.contact
 
+import com.google.gson.GsonBuilder
 import com.jakewharton.retrofit2.adapter.kotlin.coroutines.CoroutineCallAdapterFactory
 import com.sharezzorama.smallcity.data.entity.Address
 import com.sharezzorama.smallcity.data.entity.Contact
@@ -9,13 +10,17 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 object Rest {
-    //private const val BASE_URL = "http://192.168.0.106:8081/api/"
-    private const val BASE_URL = "http://192.168.206.29:8081/api/"
+    private const val BASE_URL = "http://192.168.0.106:8081/api/"
+    //private const val BASE_URL = "http://192.168.206.29:8081/api/"
     //private const val BASE_URL = "http://18.188.86.22:8081/api/"
+
+    private val gson = GsonBuilder()
+            .setDateFormat("yyyy-MM-dd'T'HH:mm:ss")
+            .create()
 
     val apiService = Retrofit.Builder()
             .baseUrl(BASE_URL)
-            .addConverterFactory(GsonConverterFactory.create())
+            .addConverterFactory(GsonConverterFactory.create(gson))
             .addCallAdapterFactory(CoroutineCallAdapterFactory())
             .build()
             .create(RestApi::class.java)

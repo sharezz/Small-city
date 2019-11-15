@@ -7,8 +7,9 @@ import com.sharezzorama.smallcity.base.AViewModel
 import com.sharezzorama.smallcity.data.entity.Address
 import com.sharezzorama.smallcity.datasource.map.AddressDataSource
 import com.sharezzorama.smallcity.datasource.map.AddressLocalDataSource
-import kotlinx.coroutines.async
+import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.withContext
 
 class AddressViewModel(private val addressDataSource: AddressDataSource,
                        private val localSource:AddressLocalDataSource) : AViewModel() {
@@ -18,10 +19,13 @@ class AddressViewModel(private val addressDataSource: AddressDataSource,
         viewModelScope.launch {
             try {
 
-                val buildingsLocal = viewModelScope.async { localSource.getBuildingsAsync() }
-                val buildings = addressDataSource.getBuildingsAsync("2020-01-01 01:01:01").await()
-                val map = buildings.associateBy { building -> building.id }
-                localSource.create(buildings)
+                val buildings = withContext(Dispatchers.Default) { localSource.getBuildingsAsync() }
+              //  val map = buildings.associateBy { building -> building.id }
+
+                //Remote
+                val remoteBuildings = addressDataSource.getBuildingsAsync("2019-12-01T01:01:01").await()
+                val map = remoteBuildings.associateBy { building -> building.id }
+                localSource.create(remoteBuildings)
                 buildingsLiveData.postValue(map)
             } catch (e: Exception) {
                 Log.e("BANANA", "Error", e)
