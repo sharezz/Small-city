@@ -11,6 +11,9 @@ abstract class AddressDao {
     @Query("SELECT * FROM addresses")
     abstract fun getAll(): List<Address>
 
+    @Query("SELECT * FROM addresses WHERE id=:id")
+    abstract fun findById(id: Int): Address
+
     @Insert
     abstract fun insert(address: Address)
 

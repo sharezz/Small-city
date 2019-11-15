@@ -3,7 +3,6 @@ package com.sharezzorama.smallcity.map
 import android.Manifest
 import android.os.Bundle
 import android.view.View
-import androidx.core.content.ContextCompat
 import androidx.lifecycle.Observer
 import com.sharezzorama.smallcity.ProjectConstants.Companion.CITY_CENTER_LAT
 import com.sharezzorama.smallcity.ProjectConstants.Companion.CITY_CENTER_LON
@@ -18,8 +17,9 @@ import kotlinx.android.synthetic.main.fragment_map.*
 import org.koin.androidx.viewmodel.ext.android.sharedViewModel
 import org.osmdroid.tileprovider.tilesource.TileSourceFactory
 import org.osmdroid.util.GeoPoint
+import org.osmdroid.views.CustomZoomButtonsController.Visibility.ALWAYS
+import org.osmdroid.views.CustomZoomButtonsController.Visibility.NEVER
 import org.osmdroid.views.overlay.Marker
-import org.osmdroid.views.CustomZoomButtonsController.Visibility.*
 
 
 @Layout(id = R.layout.fragment_map)
@@ -56,7 +56,7 @@ open class MapFragment : BaseFragment() {
         addressViewModel
                 .buildingsLiveData
                 .observe(this, Observer { buildings ->
-                    onBuildingsLoaded(buildings = buildings.values.toList())
+                    onBuildingsLoaded(buildings = buildings)
                 })
         addressViewModel.loadBuildings()
     }
@@ -90,8 +90,8 @@ open class MapFragment : BaseFragment() {
         }
     }
 
-    open protected fun onInitMap(mapInitializer: MapInitializer) {}
-    open protected fun onBuildingSelected(building: Address, marker: Marker) {
+    protected open fun onInitMap(mapInitializer: MapInitializer) {}
+    protected open fun onBuildingSelected(building: Address, marker: Marker) {
 
         val contactSheet = activity
         if (contactSheet != null && contactSheet is OnBuildingSelectListener) {
@@ -99,13 +99,13 @@ open class MapFragment : BaseFragment() {
         }
     }
 
-    open protected fun onBuildingsLoaded(buildings: List<Address>) {
+    protected open fun onBuildingsLoaded(buildings: List<Address>) {
         buildings.map { address ->
             val marker = address.toMarker(mapView)
-            marker.setOnMarkerClickListener(Marker.OnMarkerClickListener { marker, mapView ->
-                onBuildingSelected(address, marker)
+            marker.setOnMarkerClickListener { m, _ ->
+                onBuildingSelected(address, m)
                 true
-            })
+            }
             marker
         }
                 .forEach { marker ->

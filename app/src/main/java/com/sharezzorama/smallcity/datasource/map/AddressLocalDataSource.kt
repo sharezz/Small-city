@@ -11,4 +11,6 @@ class AddressLocalDataSource(private val database: AppDatabase) {
 
     suspend fun create(addressList: List<Address>) {database.addressDao().insertAll(addressList)}
 
+    fun getBuildingById(id: Int) = database.addressDao().findById(id)
+
 }

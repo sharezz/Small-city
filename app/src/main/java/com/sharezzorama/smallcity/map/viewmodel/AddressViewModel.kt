@@ -9,24 +9,25 @@ import com.sharezzorama.smallcity.datasource.map.AddressDataSource
 import com.sharezzorama.smallcity.datasource.map.AddressLocalDataSource
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
+import kotlinx.coroutines.runBlocking
 import kotlinx.coroutines.withContext
+import java.util.*
 
 class AddressViewModel(private val addressDataSource: AddressDataSource,
-                       private val localSource:AddressLocalDataSource) : AViewModel() {
-    val buildingsLiveData = MutableLiveData<Map<Int, Address>>()
+                       private val localSource: AddressLocalDataSource) : AViewModel() {
+    val buildingsLiveData = MutableLiveData<List<Address>>()
 
     fun loadBuildings() {
         viewModelScope.launch {
             try {
-
+                //Local
                 val buildings = withContext(Dispatchers.Default) { localSource.getBuildingsAsync() }
-              //  val map = buildings.associateBy { building -> building.id }
-
+                buildingsLiveData.postValue(buildings)
                 //Remote
-                val remoteBuildings = addressDataSource.getBuildingsAsync("2019-12-01T01:01:01").await()
-                val map = remoteBuildings.associateBy { building -> building.id }
-                localSource.create(remoteBuildings)
-                buildingsLiveData.postValue(map)
+                val lastUpdated = buildings.maxBy { it.updated }?.updated ?: Date(0)
+                val remoteBuildings = addressDataSource.getBuildingsAsync(lastUpdated).await()
+                withContext(Dispatchers.Default) { localSource.create(remoteBuildings) }
+
             } catch (e: Exception) {
                 Log.e("BANANA", "Error", e)
             } finally {
@@ -35,5 +36,9 @@ class AddressViewModel(private val addressDataSource: AddressDataSource,
         }
     }
 
-    fun getBuilding(id: Int?) = if (id != null) buildingsLiveData.value?.get(id) else null
+    fun getBuilding(id: Int?) = runBlocking {
+        if (id != null)
+            withContext(Dispatchers.Default) { localSource.getBuildingById(id) }
+        null
+    }
 }
