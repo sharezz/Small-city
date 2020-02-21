@@ -7,6 +7,6 @@ data class Contact(
         var phones: List<Phone> = listOf(),
         var categories: List<Category>? = null,
         var tags: List<Tag>? = null,
-        var buildingId: Int? = null,
+        var buildingId: Int = 0,
         var weekSchedule: List<String>? = null
 )

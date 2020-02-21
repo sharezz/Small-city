@@ -75,7 +75,7 @@ class AddContactViewModel(private val dataSource: ContactsDataSource) : AViewMod
         name = form.name.get()
         description = form.description.get()
         phones = mutableListOf()
-        buildingId = form.building.get()?.id
+        buildingId = form.building.get()?.id?:0
         tags = tagList
 
         //Phones

@@ -23,4 +23,6 @@ abstract class AddressDao {
     open suspend fun getAllAsync(): List<Address> {
         return getAll()
     }
+
+    open suspend fun findByIdAsync(id:Int) = findById(id)
 }

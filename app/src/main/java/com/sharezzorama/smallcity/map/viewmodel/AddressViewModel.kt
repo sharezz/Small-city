@@ -7,10 +7,7 @@ import com.sharezzorama.smallcity.base.AViewModel
 import com.sharezzorama.smallcity.data.entity.Address
 import com.sharezzorama.smallcity.datasource.map.AddressDataSource
 import com.sharezzorama.smallcity.datasource.map.AddressLocalDataSource
-import kotlinx.coroutines.Dispatchers
-import kotlinx.coroutines.launch
-import kotlinx.coroutines.runBlocking
-import kotlinx.coroutines.withContext
+import kotlinx.coroutines.*
 import java.util.*
 
 class AddressViewModel(private val addressDataSource: AddressDataSource,
@@ -26,6 +23,7 @@ class AddressViewModel(private val addressDataSource: AddressDataSource,
                 //Remote
                 val lastUpdated = buildings.maxBy { it.updated }?.updated ?: Date(0)
                 val remoteBuildings = addressDataSource.getBuildingsAsync(lastUpdated).await()
+                buildingsLiveData.postValue(buildings)
                 withContext(Dispatchers.Default) { localSource.create(remoteBuildings) }
 
             } catch (e: Exception) {
@@ -36,9 +34,7 @@ class AddressViewModel(private val addressDataSource: AddressDataSource,
         }
     }
 
-    fun getBuilding(id: Int?) = runBlocking {
-        if (id != null)
+     fun getBuilding(id: Int) = runBlocking {
             withContext(Dispatchers.Default) { localSource.getBuildingById(id) }
-        null
     }
 }

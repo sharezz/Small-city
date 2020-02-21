@@ -10,9 +10,9 @@ import retrofit2.converter.gson.GsonConverterFactory
 import retrofit2.http.*
 
 object Rest {
-    //private const val BASE_URL = "http://192.168.0.106:8081/api/"
-    private const val BASE_URL = "http://192.168.206.29:8081/api/"
-    //private const val BASE_URL = "http://18.188.86.22:8081/api/"
+    //private const val BASE_URL = "http://ec2-18-188-86-22.us-east-2.compute.amazonaws.com:80/api/"
+    //private const val BASE_URL = "http://192.168.206.29:8081/api/"
+    private const val BASE_URL = "http://109.174.24.54:8080/api/"
 
     private val gson = GsonBuilder()
             .setDateFormat("yyyy-MM-dd'T'HH:mm:ss.SSSSSS")
